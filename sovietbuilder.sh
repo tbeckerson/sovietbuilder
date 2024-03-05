@@ -18,7 +18,7 @@ echo $BUILD > $PWD/build
 fi
 
 ##############
-## The next three variables are the only ones that need to be changed.
+## The next four variables are the only ones that need to be changed.
 ## location of the new build of soviet
 ## default is $PWD/$BUILD-build
 SOV_DIR="$PWD/build-$BUILD"
@@ -28,21 +28,18 @@ SOV_FILES="$PWD/soviet-files"
 ## where you want the final img files to be stored
 ## default is $PWD/$BUILD-files
 SOV_BUILD="$PWD/$BUILD-files"
+## default compile options
 #############
 
-## figure out the number of available processors,
-## defaults to procs -1 so the system still has resources
-NPROCS=$(nproc)
-if [ $NPROCS -eq 1 ]
-then
-MAKEFLAGS=" -j1 ";
-else
-MAKEFLAGS=" -j$((NPROCS-1))"; ## change this line if needed
-fi
+## add a line to cccp.conf to install to the correct directory.
+echo "ROOT=$SOV_DIR" >> /etc/cccp.conf
+## add the above compile flags to cccp.conf
+
+
 
 ## make the base filesystem
 if [ ! -f $PWD/01-complete ]; then
-source ./01-dirs.sh &&
+source 01-dirs.sh &&
 fi
 
 ## use cccp to install soviet
