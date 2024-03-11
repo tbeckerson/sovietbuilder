@@ -3,7 +3,7 @@ script to generate a soviet linux build
 ---
 
 **SUMMARY**
-This build script uses a host machine to create a new _soviet_ build on a target machine. It could work on any Linux distro with the normal suite of compiling tools (gcc, automake, meson, cmake, etc), when you also install the _cccp_ package manager.
+This build script uses a host machine to create a new _soviet_ build on a target machine. It could work on any Linux distro with the normal suite of compiling tools (gcc, automake, meson, cmake, etc), if you also install the _cccp_ package manager.
 _Soviet Linux_ can be used to build itself, and any one of the recent (2024 onwards) _sovietlinux-*-core.tar.gz_ builds can be used. When in doubt, use the most recent.
 These scripts are designed to be simple to understand, and easy to modify if you want to make your own custom _soviet_ build.
 
@@ -14,14 +14,14 @@ There are three variable starting at appx line 30, that point to directories. Th
 There's a line that defaults to `MAKE_FLAGS=-j1`. This means to use a single core to build cccp packages.
 The _soviet_ development builds use this:
 ```
-MAKE_FLAGS="CFLAGS="-j7 -march=x86_64-v2 -mtune=generic -O2 -pipe -fno-plt -fexceptions \
+MAKE_FLAGS="CFLAGS="-jx -march=x86_64-v2 -mtune=generic -O2 -pipe -fno-plt -fexceptions \
 -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security \
 -fstack-clash-protection -fcf-protection" \
 CXXFLAGS="$CFLAGS -Wp,-D_GLIBCXX_ASSERTIONS" \
 LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now" \
 LTOFLAGS="-flto=auto"
 ```
-...except the `-jx` flag should be changed to a suitable number for your system. Recommended is your number of processor cores, minus one to give you resources to keep using your system while _soviet_ builds. You can use whatever flags you want, but the above is known to work. Change these at your own risk.
+...the `-jx` flag should be changed to a suitable number for your system. Recommended is your number of processor cores, minus one to give you resources to keep using your system while _soviet_ builds. You can use whatever flags you want, but the above is known to work. Change these at your own risk.
 - if you're installing to a partition or other mounted location, make sure you create the necessary folders (that you named in the _sovietbuilder.sh_ file, as above) and mount your targets. If you're not mounting anything, the script will create these folders for you. Note that the _soviet_ build generated in this script will take up about 2.5G of space, so plan accordingly.
 - run the _sovietbuilder.sh_ script. This will probably take several hours, depending on your machine.
 
