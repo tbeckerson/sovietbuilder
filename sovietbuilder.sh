@@ -54,7 +54,7 @@ fi
 
 ## nspawn to enter the system and run configs
 if [ -f $PWD/03-complete ] && [ ! -f $PWD/04-complete ]; then
-systemd-nspawn -D $SOV_DIR /04-config.sh &&
+systemd-nspawn --as-pid2 -D $SOV_DIR /04-config.sh &&
 ## create a check file in the host system
 if [ -f $SOV_DIR/04-complete ]; then
 touch $PWD/04-complete

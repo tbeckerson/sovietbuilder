@@ -15,6 +15,9 @@ KVER="$(ls /lib/modules/)"
 ## sysext and confext perform the /var/lib/* overlay
 systemctl enable systemd-sysext
 systemctl enable systemd-confext
+## if using sysext, this won't work due to the immutablilty?
+## move to earlier in the process??
+systemctl disable update-usbids
 ## one day, A/B updates
 systemctl enable systemd-sysupdate
 ## homectl

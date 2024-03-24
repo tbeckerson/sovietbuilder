@@ -59,15 +59,14 @@ xz -T0 usr-$BUILD.tar
 SQUASH_SIZE="$(du -b squashfs.img | cut -f -1 | numfmt --to-unit=M )"
 ## size of efi files
 EFI_SIZE="$(du -b sovietlinux-$BUILD-installation.efi | cut -f -1 | numfmt --to-unit=M )"
-## add about 15M for extra files and filesystem overhead
-EFI_20="$(( $EFI_SIZE + 15 ))"
+## add about 20M for extra files and filesystem overhead
+EFI_20="$(( $EFI_SIZE + 20 ))"
 ## combined size
-COMBINED_SIZE="$(( SQUASH_SIZE+EFI_20 ))"
+COMBINED_SIZE="$(( $SQUASH_SIZE + $EFI_20 ))"
 ## divide by 20 to get 5% of size
-FIVE_PERCENT="$(( COMBINED_SIZE/20 ))"
+FIVE_PERCENT="$(( $COMBINED_SIZE / 20 )) "
 ## add 5% to allow room for fs overhead and size variance
-IMG_SIZE="$(( COMBINED_SIZE+FIVE_PERCENT ))"
-## use numfmt to give this a MiB value, so truncate will align to sectors
+IMG_SIZE="$(( $COMBINED_SIZE + $FIVE_PERCENT ))"
 ## make the img and give it a loop device
 truncate -s ${IMG_SIZE}M sovietlinux-$BUILD-installation.img
 ## this creates the loop device, and grabs the /dev it's assigned to #
