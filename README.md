@@ -12,8 +12,7 @@ These scripts are designed to be simple to understand, and easy to modify if you
 **INSTRUCTIONS**  
 1. edit the _sovietbuilder.sh_ file:
 There are three variables starting at appx line 30, that point to directories. The default options use $PWD (present working directory), and will create folders in the same directory that you run the script from. These three variables should be the only things you need to change in the script.
-2. (optional) edit the host's /etc/cccp.conf file to add compiler flags:
-There's a line that defaults to `MAKE_FLAGS=-j1`. This means to use a single core to build cccp packages.
+2. (optional) edit the host's /etc/cccp.conf file to add compiler flags.
 The _soviet_ development builds use this:
 ```
 MAKE_FLAGS="-jx"
