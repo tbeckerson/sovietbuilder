@@ -4,14 +4,16 @@
 set -e
 
 ###########
-# the minimum filesystem for a working linux install
+# the minimum filesystem
 ###########
 
 ## make this dir if it's not already there
 mkdir -pv $SOV_DIR
 ## base directories without subdirectories
-mkdir -pv $SOV_DIR/{boot,dev,etc,home,lib,media,mnt,opt,proc,root,run,srv,tmp}
-## base directories with subs (usr and var)
+mkdir -pv $SOV_DIR/{boot,dev,home,lib,media,mnt,opt,proc,root,run,srv,tmp}
+## base directories with subs (efi, etc, usr and var)
+mkdir -pv $SOV_DIR/efi/{loader,EFI/{BOOT,Linux,systemd}}
+mkdir -pv $SOV_DIR/etc/{kernel,systemd/{network,system},sysupdate.d}
 mkdir -pv $SOV_DIR/usr/{bin,etc,games,include,lib,libexec,local,share,src}
 mkdir -pv $SOV_DIR/var/{cache,lib/{confexts,extensions},local,log,mail,opt,spool,tmp}
 ## links for /
@@ -30,4 +32,4 @@ ln -sv /run/lock lock
 ln -sv /run run )
 
 ## all done!
-touch ${PWD}/01-complete
+touch 01-complete

@@ -1,0 +1,6 @@
+## the look of your command prompt
+PS1="\[\e[0;96m\]\t \[\e[0;36m\]\u \[\e[0m\][\[\e[0;92m\]\W\[\e[0m\]] \[\e[0m\]\$ \[\e[0m\]"
+## default editor
+EDITOR=nano
+
+export PS1 EDITOR

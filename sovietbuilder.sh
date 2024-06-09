@@ -6,69 +6,86 @@ set -e
 ## start us off by tracking time
 SECONDS=0
 DURATION=$SECONDS
+if [ ! -f build-time ]; then
 echo "Started: $(date)" > build-time
+fi
 
 ## we need a build number for some customization,
 ## and to create unique dates for sysupdate
-if [ -f $PWD/build ]; then
-BUILD="$(cat $PWD/build)";
+if [ -f build ]; then
+BUILD="$(cat build)";
 else
-BUILD="$(date +%y%m%d)"
-echo $BUILD > $PWD/build
+BUILD="$(date +%y%m%d%H%M)"
+echo $BUILD > build
 fi
 
 ##############
 ## The next four variables are the only ones that need to be changed.
 ## location of the new build of soviet
-## default is $PWD/$BUILD-build
-SOV_DIR="$PWD/build-$BUILD"
+## default is $BUILD-build
+SOV_DIR="build-$BUILD"
 ## where the pre-built files used in the 3rd script are stored
-## default is $PWD/soviet-files
-SOV_FILES="$PWD/soviet-files"
+## default is soviet-files
+SOV_FILES="soviet-files"
 ## where you want the final img files to be stored
-## default is $PWD/$BUILD-files
-SOV_BUILD="$PWD/$BUILD-files"
-## default compile options
+## default is $BUILD-files
+SOV_BUILD="$BUILD-files"
 #############
 
 ## add a line to cccp.conf to install to the correct directory.
+
+## gather the ROOT variable
+if [[ -n "$(grep ROOT /etc/cccp.conf)" ]]; then
+BUILDCHECK="$(grep 'ROOT' /etc/cccp.conf)"
+    if [[ "ROOT=$SOV_DIR" != "$BUILDCHECK" ]]; then
+    echo 'BUILD and BUILDCHECK do not match, replacing'
+## if not, delete it and make an update
+    sed -i '/ROOT/d' /etc/cccp.conf
+    echo "ROOT=$SOV_DIR" >> /etc/cccp.conf
+sleep 2
+    fi
+else
+## if there's no ROOT variable, make one
+echo 'adding $ROOT to /etc/cccp.conf'
 echo "ROOT=$SOV_DIR" >> /etc/cccp.conf
-## add the above compile flags to cccp.conf
-
-
+sleep 2
+fi
 
 ## make the base filesystem
-if [ ! -f $PWD/01-complete ]; then
-source 01-dirs.sh &&
+if [ ! -f 01-complete ]; then
+source 01-dirs.sh
 fi
 
 ## use cccp to install soviet
-if [ -f $PWD/01-complete ] && [ ! -f $PWD/02-complete ]; then
-source 02-soviet.sh &&
+if [ -f 01-complete ] && [ ! -f 02-complete ]; then
+source 02-soviet.sh
 fi
 
 ## copy relevant files to the new install
-if [ -f $PWD/02-complete ] && [ ! -f $PWD/03-complete ]; then
-source 03-files.sh &&
+if [ -f 02-complete ] && [ ! -f 03-complete ]; then
+source 03-files.sh
 fi
 
 ## nspawn to enter the system and run configs
-if [ -f $PWD/03-complete ] && [ ! -f $PWD/04-complete ]; then
-systemd-nspawn --as-pid2 -D $SOV_DIR /04-config.sh &&
+if [ -f 03-complete ] && [ ! -f 04-complete ]; then
+systemd-nspawn --as-pid2 -D $SOV_DIR /04-config.sh
 ## create a check file in the host system
 if [ -f $SOV_DIR/04-complete ]; then
-touch $PWD/04-complete
+touch 04-complete
+rm $SOV_DIR/04-complete
  
 ## make the deliverables
-if [ -f $PWD/04-complete ] && [ ! -f $PWD/05-complete ]; then
-source 05-build.sh &&
+if [ -f 04-complete ] && [ ! -f 05-complete ]; then
+source 05-build.sh
 fi
 
+if [ -f 05-complete ]; then
 ## remove the build file so we get a fresh start next time
-rm $PWD/build
+rm build
 ## remove build status files made in 02
-rm $PWD/build-{progress,list}
+rm build-{progress,list}
 ## clear out the check files
-rm $PWD/*-complete
+rm *-complete
 ## get a final time for the build
-echo "SOVIET LINUX, build $BUILD\nFinished: $(date)\nTime elapsed: $($DURATION / 60)M $($DURATION % 60)S" >> "$BUILD-build-time"
+echo "SOVIET LINUX, build $BUILD\nFinished: $(date)\nTime elapsed: $($DURATION / 60)M $($DURATION % 60)S" >> build-time
+fi

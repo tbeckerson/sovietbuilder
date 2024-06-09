@@ -9,10 +9,8 @@ _Soviet Linux_ can be used to build itself, and any one of the recent (2024 onwa
 
 These scripts are designed to be simple to understand, and easy to modify if you want to make your own custom _soviet_ build.
 
-**INSTRUCTIONS**  
-1. edit the _sovietbuilder.sh_ file:
-There are three variables starting at appx line 30, that point to directories. The default options use $PWD (present working directory), and will create folders in the same directory that you run the script from. These three variables should be the only things you need to change in the script.
-2. (optional) edit the host's /etc/cccp.conf file to add compiler flags.
+**INSTRUCTIONS**
+(optional) edit the host's /etc/cccp.conf file to add compiler flags.
 The _soviet_ development builds use this:
 ```
 MAKE_FLAGS="-jx"
@@ -25,8 +23,12 @@ The `-jx` flag should be changed to a suitable number for your system.
 
 You can use whatever flags you want, but the above is known to work for almost all programs. You add more at your own risk. For a build that you _only_ intend to use on your own system, changing `-march=x86_64-v2` to `-march=native` is a recommend option.
 
-3. if you're installing to a partition or other mounted location, make sure you create the necessary folders (that you named in the _sovietbuilder.sh_ file, as above) and mount your targets. If you're not mounting anything, the script will create these folders for you. Note that the _soviet_ build generated in this script will take up about 2.5G of space, so plan accordingly.
-4. run the _sovietbuilder.sh_ script. This will probably take several hours, depending on your machine.
+1. edit the _sovietbuilder.sh_ file:
+There are three variables starting at appx line 30, that point to directories. The default options use $PWD (present working directory), and will create folders in the same directory that you run the script from. These three variables should be the only things you need to change in the script.
+
+2. if you're installing to a partition or other mounted location, make sure you create the necessary folders (that you named in the _sovietbuilder.sh_ file, as above) and mount your targets. If you're not mounting anything, the script will create these folders for you. Note that the _soviet_ build generated in this script will take up about 2.5G of space, so plan accordingly.
+
+3. run the _sovietbuilder.sh_ script. This will probably take several hours, depending on your machine. Some programs (the kernel for example) will require user intervention.
 
 **LAYOUT**  
 The _sovietbuilder.sh_ script calls 5 other scripts to create the _soviet_ build:
