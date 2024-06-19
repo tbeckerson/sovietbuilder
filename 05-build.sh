@@ -100,4 +100,4 @@ umount loop-install
 losetup -d $LOOP )
 
 ## all done!
-touch ${PWD}/05-complete
+touch 05-complete

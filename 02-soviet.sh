@@ -8,23 +8,34 @@ set -e
 # using the cccp installer from the host system
 ###########
 ## git an updated OUR base tree
-git clone https://github.com/Soviet-Linux/OUR.git
+if [[ ! -d /var/cccp/sources/OUR ]]; then
+git clone -C /var/cccp/sources/ https://github.com/Soviet-Linux/OUR.git
+else
+( cd /var/cccp/sources/OUR
+git pull )
+fi
 
-## compares complete list of programs (prog-list)
+## grab the list of programs to install
+if [[ ! -f prog-list ]]; then
+cp $SOV_FILES/prog-list .
+fi
+## touch some files to avoid an error
+if [[ ! -f build-{progress,list} ]]; then
+touch build-{progress,list}
+fi
+## compares full list of programs (prog-list)
 ## with list that's been successfully built (build-progress)
-## makes a new list with un-completed programs
-comm -3 <(sort prog-list) <(sort build-progress) > build-list
+## makes a new list with programs to build (build-list)
+comm -3 --nocheck-order prog-list build-progress > build-list
 
 ## loop through the todo list, build files
-while read prog; do
-echo "installing $prog"
+while read PROG; do
 ## using the cccp package manager, install everything in the build-list
-##  
-cccp --verbose -pkg ${PWD}/OUR/base/src/${prog}.ecmp
-echo "$prog successfully installed"
-echo "$prog" >> ${PWD}/build-progress
-cat ${PWD}/build-progress
-done < ${PWD}/build-list
+cccp --verbose -Nn -i $PROG &&
+## when the program is installed, add the name to build-progress file
+echo "$PROG" >> build-progress
+## finish the loop, continue with contents of build-list
+done < build-list
 
 ## all done!
-touch ${PWD}/02-complete
+touch 02-complete
