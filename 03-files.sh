@@ -49,9 +49,6 @@ rm -vf $LFS_BUILD_DIR/etc/lsb-release
 ## systemd-boot files
 cp -v $SOV_DIR/usr/lib/systemd/boot/efi/systemd-bootx64.efi $SOV_DIR/efi/EFI/BOOT/BOOTX64.EFI
 cp -v $SOV_BUILD_DIR/usr/lib/systemd/boot/efi/systemd-bootx64.efi $SOV_DIR/efi/EFI/systemd/
-## add some missing files that stop nscd from working
-echo -e "f /run/nscd/nscd.pid 0755 root root\nf /run/nscd/service 0755 root root" >> $SOV_DIR/usr/lib/tmpfiles.d/nscd.conf
-touch $SOV_DIR/etc/netgroup
 
 ## get stage 4 ready
 cp 04-config.sh $SOV_DIR/
