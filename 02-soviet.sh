@@ -31,7 +31,9 @@ comm -3 --nocheck-order prog-list build-progress > build-list
 ## loop through the todo list, build files
 while read PROG; do
 ## using the cccp package manager, install everything in the build-list
-cccp --verbose -Nn -i $PROG &&
+cccp --verbose -Nn -i $PROG ||
+## this file doesn't get deleted by *some* program, and it causes a fail
+rm -rf $SOV_DIR/usr/share/info/dir
 ## when the program is installed, add the name to build-progress file
 echo "$PROG" >> build-progress
 ## finish the loop, continue with contents of build-list
