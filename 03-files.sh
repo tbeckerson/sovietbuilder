@@ -9,7 +9,7 @@ set -e
 ############
 
 ## profile and logo
-#cp -v $SOV_FILES/profile $SOV_DIR/root/.bash_profile
+cp -v $SOV_FILES/bash_profile $SOV_DIR/root/.bash_profile
 cp -v $SOV_FILES/logo-soviet-boot.bmp $SOV_DIR/efi
 ## for systemd-networkd
 cp -v $SOV_FILES/10-dhcp.network $SOV_FILES/20-wifi.network $SOV_DIR/etc/systemd/network/
@@ -37,6 +37,10 @@ cp -v $SOV_FILES/zramswap.service $SOV_DIR/usr/lib/systemd/system/zramswap.servi
 ## manage the network
 cp -v $SOV_FILES/hosts $SOV_DIR/etc/
 
+## pam
+cp -v $SOV_FILES/system-{account,auth,password,session} /etc/pam.d/
+cp -v $SOV_FILES/other /etc/pam.d/
+
 ## os-release and localtime should be relative symlinks, so
 ## remove default files, re-link with custom work
 (cd $SOV_DIR/etc
@@ -48,10 +52,10 @@ rm -vf $LFS_BUILD_DIR/etc/lsb-release
 )
 ## systemd-boot files
 cp -v $SOV_DIR/usr/lib/systemd/boot/efi/systemd-bootx64.efi $SOV_DIR/efi/EFI/BOOT/BOOTX64.EFI
-cp -v $SOV_BUILD_DIR/usr/lib/systemd/boot/efi/systemd-bootx64.efi $SOV_DIR/efi/EFI/systemd/
-## add some missing files that stop nscd from working
-echo -e "f /run/nscd/nscd.pid 0755 root root\nf /run/nscd/service 0755 root root" >> $SOV_DIR/usr/lib/tmpfiles.d/nscd.conf
-touch $SOV_DIR/etc/netgroup
+cp -v $SOV_DIR/usr/lib/systemd/boot/efi/systemd-bootx64.efi $SOV_DIR/efi/EFI/systemd/
+
+## installer script
+cp -v $SOV_FILES/soviet_install.sh $SOV_DIR/etc/
 
 ## get stage 4 ready
 cp 04-config.sh $SOV_DIR/

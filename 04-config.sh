@@ -12,10 +12,13 @@ set -e
 BUILD="$(cat /build)"
 KVER="$(ls /lib/modules/)"
 
+# polkit
+groupadd -fg 27  polkitd
+useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27  -g polkitd -s /bin/false polkitd
 #Set up the basic target structure:
 systemctl preset-all
 # Create the /etc/machine-id file needed by systemd-journald:
-#systemd-machine-id-setup
+systemd-machine-id-setup
 ## sysext and confext perform the /var/lib/* overlay
 #systemctl enable systemd-sysext
 #systemctl enable systemd-confext
@@ -48,6 +51,9 @@ dracut --kver $KVER  --add livenet --add-drivers ' vfat squashfs btrfs ' --no-ea
 ukify build --linux=/usr/lib/modules/$KVER/vmlinuz-soviet --initrd=/efi/sovietlinux-$BUILD-initrd-installer.img --uname=$KVER --cmdline=@/etc/kernel/cmdline-installer --splash=/efi/logo-soviet-boot.bmp --output=/efi/sovietlinux-$BUILD-installation.efi
 ## cmdline-installer file is no longer needed
 rm -v /etc/kernel/cmdline-installer
+
+## make soviet-install.sh executable
+chmod +x /etc/soviet-install.sh
 
 ## all done!
 touch /04-complete

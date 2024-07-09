@@ -22,32 +22,36 @@ fi
 ##############
 ## The next four variables are the only ones that need to be changed.
 ## location of the new build of soviet
-## default is $BUILD-build
-SOV_DIR="build-$BUILD"
+## default is ${PWD}/build-$BUILD
+SOV_DIR="${PWD}/build-$BUILD"
 ## where the pre-built files used in the 3rd script are stored
-## default is soviet-files
-SOV_FILES="soviet-files"
+## default is ${PWD}/soviet-files
+SOV_FILES="${PWD}/soviet-files"
 ## where you want the final img files to be stored
-## default is $BUILD-files
-SOV_BUILD="$BUILD-files"
+## default is ${PWD}/$BUILD-files
+SOV_BUILD="{PWD}/$BUILD-files"
 #############
 
 ## add a line to cccp.conf to install to the correct directory.
 
-## gather the ROOT variable
-if [[ -n "$(grep ROOT /etc/cccp.conf)" ]]; then
-BUILDCHECK="$(grep 'ROOT' /etc/cccp.conf)"
-    if [[ "ROOT=$SOV_DIR" != "$BUILDCHECK" ]]; then
-    echo 'BUILD and BUILDCHECK do not match, replacing'
-## if not, delete it and make an update
-    sed -i '/ROOT/d' /etc/cccp.conf
-    echo "ROOT=$SOV_DIR" >> /etc/cccp.conf
+## gather the SOVIET_ROOT variable
+ if [[ -n "$(grep SOVIET_ROOT /etc/cccp.conf)" ]]; then
+BUILDCHECK="$(grep 'SOVIET_ROOT' /etc/cccp.conf)"
+if [[ "SOVIET_ROOT=$SOV_DIR" != "$BUILDCHECK" ]]; then
+ echo 'BUILD and BUILDCHECK do not match, replacing'
+## delete it AND SOVIET_SPM_DIR and make an update
+sed -i '/SOVIET_ROOT/d' /etc/cccp.conf
+sed -i '/SOVIET_SPM_DIR/d' /etc/cccp.conf
+echo "SOVIET_ROOT=$SOV_DIR" >> /etc/cccp.conf
+echo "SOVIET_SPM_DIR=$SOV_DIR/var/cccp/spm" >> /etc/cccp.conf
 sleep 2
-    fi
+fi
+
 else
-## if there's no ROOT variable, make one
-echo 'adding $ROOT to /etc/cccp.conf'
-echo "ROOT=$SOV_DIR" >> /etc/cccp.conf
+## if there's no SOVIET_ROOT variable, make one
+echo 'adding $SOVIET_ROOT to /etc/cccp.conf'
+echo "SOVIET_ROOT=$SOV_DIR" >> /etc/cccp.conf
+echo "SOVIET_ROOT=$SOV_DIR/var/cccp/spm" >> /etc/cccp.conf
 sleep 2
 fi
 
@@ -68,12 +72,13 @@ fi
 
 ## nspawn to enter the system and run configs
 if [ -f 03-complete ] && [ ! -f 04-complete ]; then
-systemd-nspawn --as-pid2 -D $SOV_DIR /04-config.sh
+systemd-nspawn -D $SOV_DIR /04-config.sh
+fi
 ## create a check file in the host system
 if [ -f $SOV_DIR/04-complete ]; then
 touch 04-complete
 rm $SOV_DIR/04-complete
- 
+ fi
 ## make the deliverables
 if [ -f 04-complete ] && [ ! -f 05-complete ]; then
 source 05-build.sh
