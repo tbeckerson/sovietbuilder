@@ -9,7 +9,7 @@ _Soviet Linux_ can be used to build itself, and any one of the recent (2024 onwa
 
 These scripts are designed to be simple to understand, and easy to modify if you want to make your own custom _soviet_ build.
 
-**INSTRUCTIONS**
+**INSTRUCTIONS**  
 It's recommended to copy the _cccp.conf_ file from the _soviet-files_ directory to the host system's /etc directory. Edit the `MAKEFLAGS` and `NINJAJOBS` variables to something useful for your system. These numbers represent the number of cpu cores being used to compile. More cores, reduced build time.  
 If you're building _only_ for your own system, switching `-march=x86-64-v2` to `-march=native` is a good idea.
 

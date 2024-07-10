@@ -1,5 +1,6 @@
 acl
 attr
+audit-userspace
 autoconf
 automake
 bash
@@ -15,6 +16,7 @@ dbus-broker
 dbus
 dejagnu
 diffutils
+dracut-ng
 e2fsprogs
 elfutils
 expat
@@ -48,6 +50,7 @@ libffi
 libpipeline
 libspm
 libtasn1
+libseccomp
 libtool
 libxcrypt
 libxml2
@@ -69,6 +72,7 @@ ncurses
 ninja
 openssl
 patch
+pcre2
 perl-xml-parser
 perl
 pkgconf
