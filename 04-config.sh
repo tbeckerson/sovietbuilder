@@ -12,9 +12,13 @@ set -e
 BUILD="$(cat /build)"
 KVER="$(ls /lib/modules/)"
 
-# polkit
-groupadd -fg 27  polkitd
-useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27  -g polkitd -s /bin/false polkitd
+# look for polkitd user and group, add them if not present
+id -g polkitd &>/dev/null || groupadd -fg 27  polkitd
+id -u polkitd &>/dev/null || useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27  -g polkitd -s /bin/false polkitd
+# create a default locale
+localedef -i C -f UTF-8 C.UTF-8
+# some progs look for mtab file
+ln -sv /proc/self/mounts /etc/mtab
 #Set up the basic target structure:
 systemctl preset-all
 # Create the /etc/machine-id file needed by systemd-journald:

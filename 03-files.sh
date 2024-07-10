@@ -38,7 +38,8 @@ cp -v $SOV_FILES/zramctl $SOV_DIR/etc/systemd/system/
 cp -v $SOV_FILES/zramswap.service $SOV_DIR/usr/lib/systemd/system/zramswap.service
 ## fstab
 cp -v $SOV_FILES/fstab-install $SOV_DIR/etc/
-
+## passwd
+cp -v $SOV_FILES/passwd $SOV_DIR/etc
 ## pam
 cp -v $SOV_FILES/system-{account,auth,password,session} /etc/pam.d/
 cp -v $SOV_FILES/other /etc/pam.d/
