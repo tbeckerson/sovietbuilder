@@ -1,0 +1,2 @@
+LABEL=sovietlinux       /       btrfs       rw,relatime,compress=zstd:3 0 0
+LABEL=SOVIET-EFI        /efi  vfat        rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro
