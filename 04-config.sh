@@ -38,13 +38,11 @@ systemctl enable systemd-networkd
 systemctl enable systemd-resolved
 ## dbus-broker
 systemctl enable dbus-broker
-
-## make img and efi for base system
-dracut --kver $KVER  --host-only  --add-drivers ' overlay ' --no-early-microcode --strip -I ' /usr/bin/nano ' /usr/lib/modules/$KVER/initrd-soviet.img
-ukify build --linux=/usr/lib/modules/$VERSION/vmlinuz-soviet --initrd=/usr/lib/modules/$VERSION/initrd-soviet.img --uname=$VERSION --cmdline=@/etc/kernel/cmdline --splash=/efi/logo-soviet-boot.bmp --output=/efi/EFI/Linux/sovietlinux-$BUILD.efi
+## get the boot files
+cp -v /usr/lib/systemd/boot/efi/systemd-bootx64.efi /efi/EFI/BOOT/BOOTX64.EFI
+cp -v /usr/lib/systemd/boot/efi/systemd-bootx64.efi /efi/EFI/systemd/
 
 ## need to make img and efi file for the installation img
-
 ## initrd
 dracut --kver $KVER  --add livenet --add-drivers ' vfat squashfs btrfs ' --no-early-microcode --strip -I ' /usr/bin/nano ' /efi/sovietlinux-$BUILD-initrd-installation.img
 ## uki

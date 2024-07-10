@@ -19,6 +19,9 @@ rm -vf $LFS_BUILD_DIR/etc/systemd/network/10-eth-static.network
 cp -v $SOV_FILES/networkd.conf $SOV_DIR/etc/systemd/
 ## drop the LFS supplied version and let systemd do the work
 rm -vf $SOV_DIR/etc/resolv.conf
+## fix problems with LFS's /etc/hosts problem by letting systemd
+## manage the network
+cp -v $SOV_FILES/hosts $SOV_DIR/etc/
 ## for systemd-sysupdate
 cp -v $SOV_FILES/10-usr.conf $SOV_FILES/30-efi.conf $SOV_DIR/etc/sysupdate.d/
 ## for the UKIs
@@ -33,9 +36,8 @@ echo type2 >> $SOV_DIR/efi/loader/entries.srel
 cp -v $SOV_FILES/zramswap.conf $SOV_DIR/etc/
 cp -v $SOV_FILES/zramctl $SOV_DIR/etc/systemd/system/
 cp -v $SOV_FILES/zramswap.service $SOV_DIR/usr/lib/systemd/system/zramswap.service
-## fix problems with LFS's /etc/hosts problem by letting systemd
-## manage the network
-cp -v $SOV_FILES/hosts $SOV_DIR/etc/
+## fstab
+cp -v $SOV_FILES/fstab-install $SOV_DIR/etc/
 
 ## pam
 cp -v $SOV_FILES/system-{account,auth,password,session} /etc/pam.d/
@@ -50,9 +52,6 @@ ln -s ../usr/share/zoneinfo/UTC localtime
 ## remove lsb-release, supplanted by os-release
 rm -vf $LFS_BUILD_DIR/etc/lsb-release
 )
-## systemd-boot files
-cp -v $SOV_DIR/usr/lib/systemd/boot/efi/systemd-bootx64.efi $SOV_DIR/efi/EFI/BOOT/BOOTX64.EFI
-cp -v $SOV_DIR/usr/lib/systemd/boot/efi/systemd-bootx64.efi $SOV_DIR/efi/EFI/systemd/
 
 ## installer script
 cp -v $SOV_FILES/soviet_install.sh $SOV_DIR/etc/
