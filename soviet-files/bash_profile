@@ -1,0 +1,7 @@
+PS1="\[\e[0;96m\]\t \[\e[0;36m\]\u \[\e[0m\][\[\e[0;92m\]\W\[\e[0m\]] \[\e[0m\]\$ \[\e[0m\]"
+EDITOR=nano
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+export PS1 EDITOR
