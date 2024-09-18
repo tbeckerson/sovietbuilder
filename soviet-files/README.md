@@ -29,11 +29,4 @@ The _sovietbuilder.sh_ script calls 5 other scripts to create the _soviet_ build
 - **02-soviet.sh** runs the _cccp_ package installer on the host system, and compiles everything the *build_list* file. This is intended to be every program included in the base _soviet_ build. This will take a long time to run (probably hours).
 - **03-files.sh** copies pre-made configuration files from the $SOV_FILES directory into the target system.
 - **04-config.sh** uses systemd-nspawn to enter the target system, and runs a variety of configuration tasks.
-- **05-build.sh** creates the standard _soviet_ deployment files - a *core.tar.gz* file, and a *installation.img* file.   
-
-**TO DO:**   
-- needs some more checks, epecially in 03 and 05, to not overwrite files or crash because a file already exists.
-- the timer at the very end gives a 'bad substitution' error.
-- there's probably a more efficient way to loop through *prog-list* in 02.
-- some of the 03 files might not actually be necessary. Some are possibly overwriting program files from 02.
-- there's inconsistent conditionals through the scripts - some ||, some &&, some [ if -f ]]. Needs to be standardized.
+- **05-build.sh** creates the standard _soviet_ deployment files - a *core.tar.gz* file, and a *installation.img* file.
