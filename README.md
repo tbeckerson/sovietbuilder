@@ -45,7 +45,8 @@ The `sovietbuilder.sh` script calls 5 other scripts to create the _soviet_ build
 - **02-soviet.sh** runs the cccp package installer on the host system, and compiles everything the *prog-list* file. This is intended to be every program included in the base soviet build. This will take a long time to run (probably hours).  
 - **03-files.sh** copies pre-made configuration files from the $SOV_FILES directory into the target system.  
 - **04-config.sh** uses systemd-nspawn to enter the target system, and runs a variety of configuration tasks.  
-- **05-build.sh** creates the standard soviet deployment files - a *sovietlinux-\*-core.tar.xz* file, and a *sovietlinux-\*-installation.img* file. It also creates a *usr-\*-tar.xz* that might get used for an immutable system.   
+- **05-build.sh** creates the standard soviet deployment files - a *sovietlinux-\*-core.tar.xz* file, and a *sovietlinux-\*-installation.img* file. It also creates a *usr-\*-tar.xz* that might get used for an immutable system.     
+- **rebuilder.sh** is used after the main script has completed. If you later alter your build (by chrooting or nspawning into your new build dir and making changes), the *rebuilder.sh* script will repeat the steps in 05-build.sh to create new deployment files.
 
 ## TO DO:
 - installer does not work!  
@@ -57,5 +58,5 @@ The `sovietbuilder.sh` script calls 5 other scripts to create the _soviet_ build
 - some of the 03 files might not actually be necessary. Some are possibly overwriting program files from 02.
 - there's inconsistent conditionals through the scripts - some ||, some &&, some `[ if -* ]`. Needs to be standardized.  
 - fix the readme to actually list the files in the *soviet-files* dir.
-- OUR is presently a git clone pointing to the *tbeckerson* repo. Needs to be swapped out with the official *soviet* repo when files are merged.
+- *rebuilder* functions properly, but needs a lot of work.
 - ?? probably a thousand more things.
