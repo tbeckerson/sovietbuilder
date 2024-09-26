@@ -58,6 +58,7 @@ libgcrypt
 libgpg-error
 libidn2
 libpipeline
+libpsl
 libseccomp
 libtasn1
 libtool
@@ -65,6 +66,7 @@ libunistring
 libxcrypt
 libxml2
 linux-pam
+linux-zen-headers
 linux-zen
 lvm2
 lzip
@@ -80,6 +82,7 @@ mpc
 mpfr
 nano
 ncurses
+nettle
 ninja
 openssl
 p11-kit

@@ -3,20 +3,36 @@
 ## explode immediately if something breaks
 set -e
 
+## make sure there's a value for $BUILD
+if [[ -z $1 ]]; then
+echo 'this script must be started with an existing build number! Example: 05-rebuilder.sh 2401020304'
+exit
+fi
+ 
+## get user input to determine the build to use
+BUILD="$1"
+
+SOV_DIR="${PWD}/build-$1"
+
+## if output dir already exists, increment by one
+i=0
+echo "i = $i"
+if [ -d "$BUILD-$i-files" ]; then
+   while [ -d "$BUILD-$i-files" ]; do
+   i=$((i+1))
+   done
+BUILD=$BUILD-$i
+fi
+SOV_BUILD="${PWD}/$BUILD-files"
 ## create the $SOV_BUILD dir if it's not already there
-mkdir -p $SOV_BUILD
+mkdir -pv $SOV_BUILD
+
+## grab the efi file from previous $BUILD
+cp -v $1-0-files/sovietlinux-$1-installation.efi $SOV_BUILD
 
 ###########
 # make the build unique
 ###########
-
-## copy the generic efi out of the build
-cp -v $SOV_DIR/efi/EFI/Linux/sovietlinux-* $SOV_BUILD
-## move the dracut imgs and the installer efi out of build
-mv $SOV_DIR/efi/sovietlinux-* $SOV_BUILD
-
-## remove the stage 04 script, the date file, and the check from the build
-rm -rv $SOV_DIR/{04-config.sh,build,04-complete}
 ## cover your tracks
 rm -rfv $SOV_DIR/root/.bash_history
 ## trying to cut down on space
@@ -34,7 +50,7 @@ echo uninitialized > $SOV_DIR/etc/machine-id
 
 ## squashfs img
 cd $SOV_DIR
-mksquashfs ./* $SOV_BUILD/squashfs.img -b 1M -noappend
+mksquashfs ./* $SOV_BUILD/squashfs-$BUILD.img -b 1M -noappend
 ## compressed files
 echo 'generating tar file of core soviet build'
 tar -cf $SOV_BUILD/sovietlinux-$BUILD-core.tar ./*
@@ -56,9 +72,9 @@ xz -T0 usr-$BUILD.tar
 ## ideal size of installation img
 ## jump through hoops because bash can't do floating point
 ## size of squashfs
-SQUASH_SIZE="$(du -b squashfs.img | cut -f -1 | numfmt --to-unit=M )"
+SQUASH_SIZE="$(du -b squashfs-$BUILD.img | cut -f -1 | numfmt --to-unit=M )"
 ## size of efi files
-EFI_SIZE="$(du -b sovietlinux-$BUILD-installation.efi | cut -f -1 | numfmt --to-unit=M )"
+EFI_SIZE="$(du -b sovietlinux-$1-installation.efi | cut -f -1 | numfmt --to-unit=M )"
 ## add about 20M for extra files and filesystem overhead
 EFI_20="$(( $EFI_SIZE + 20 ))"
 ## combined size
@@ -88,10 +104,10 @@ cp -Rv $SOV_DIR/efi/* loop-efi/
 ## ...but not the generic efi
 rm -v loop-efi/EFI/Linux/sovietlinux*.efi
 ## instead we want the special installer efi
-cp -v sovietlinux-$BUILD-installation.efi loop-efi/EFI/Linux/
+cp -v sovietlinux-$1-installation.efi loop-efi/EFI/Linux/
 ## make a home for the squashfs.img and copy it to installer
 mkdir loop-install/LiveOS
-cp -v squashfs.img loop-install/LiveOS/squashfs.img
+cp -v squashfs-$BUILD.img loop-install/LiveOS/squashfs.img
 
 ## unmount and disconnect the loop device
 umount loop-efi
@@ -99,4 +115,4 @@ umount loop-install
 losetup -d $LOOP )
 
 ## all done!
-touch 05-complete
+echo "Soviet Rebuild $BUILD complete!"

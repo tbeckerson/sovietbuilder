@@ -8,12 +8,12 @@ set -e
 # using the cccp installer from the host system
 ###########
 ## git an updated OUR base tree
-if [[ ! -d /var/cccp/sources/OUR ]]; then
-git clone -C /var/cccp/sources/ https://github.com/Soviet-Linux/OUR.git
-else
-( cd /var/cccp/sources/OUR
-git pull )
-fi
+#if [[ ! -d /var/cccp/sources/OUR ]]; then
+#git clone -C /var/cccp/sources/ https://github.com/Soviet-Linux/OUR.git
+#else
+#( cd /var/cccp/sources/OUR
+#git pull )
+#fi
 
 ## gather the SOVIET_ROOT variable
  if [[ -n "$(grep SOVIET_ROOT /etc/cccp.conf)" ]]; then

@@ -42,7 +42,7 @@ echo 'generating tar file of /usr dir only'
 tar -cf $SOV_BUILD/usr-$BUILD.tar ./usr/*
 
 ## the rest of the script takes place in the build directory
-( cd $SOV_BUILD
+cd $SOV_BUILD
 
 ## quicker to use xz separately from tar, because multi-threading
 echo 'compressing core.tar'
@@ -96,7 +96,9 @@ cp -v squashfs.img loop-install/LiveOS/squashfs.img
 ## unmount and disconnect the loop device
 umount loop-efi
 umount loop-install
-losetup -d $LOOP )
+losetup -d $LOOP
 
+## back to the main dir
+cd $SOV_DIR
 ## all done!
 touch 05-complete

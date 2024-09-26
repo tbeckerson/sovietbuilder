@@ -16,16 +16,16 @@ fi
 ## The next three variables are the only ones that need to be changed.
 
 ## location of the new build of soviet
-## default is ${PWD}/build-$BUILD
-SOV_DIR="${PWD}/build-$BUILD"
+## default is ${PWD}/soviet-build/build-$BUILD
+SOV_DIR="${PWD}/soviet-build/build-$BUILD"
 
 ## where the pre-built files used in the 3rd script are stored
 ## default is ${PWD}/soviet-files
 SOV_FILES="${PWD}/soviet-files"
 
 ## where you want the final img files to be stored
-## default is ${PWD}/$BUILD-files
-SOV_BUILD="${PWD}/$BUILD-files"
+## default is ${PWD}/soviet-build/$BUILD-0-files
+SOV_BUILD="${PWD}/soviet-build/$BUILD-0-files"
 #############
 
 ## start us off by tracking time
