@@ -1,4 +1,3 @@
-rootflags=subvol=soviet-rootfs
 rw
 quiet
 splash

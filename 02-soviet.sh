@@ -8,26 +8,23 @@ set -e
 # using the cccp installer from the host system
 ###########
 ## git an updated OUR base tree
-#if [[ ! -d /var/cccp/sources/OUR ]]; then
-#git clone -C /var/cccp/sources/ https://github.com/Soviet-Linux/OUR.git
-#else
-#( cd /var/cccp/sources/OUR
-#git pull )
-#fi
+if [[ ! -d /var/cccp/sources/OUR ]]; then
+git clone --depth 1 -C /var/cccp/sources/ https://github.com/Soviet-Linux/OUR.git
+else
+( cd /var/cccp/sources/OUR
+git pull )
+fi
 
 ## gather the SOVIET_ROOT variable
  if [[ -n "$(grep SOVIET_ROOT /etc/cccp.conf)" ]]; then
 BUILDCHECK="$(grep 'SOVIET_ROOT' /etc/cccp.conf)"
-if [[ "SOVIET_ROOT=$SOV_DIR" != "$BUILDCHECK" ]]; then
- echo 'BUILD and BUILDCHECK do not match, replacing'
-## delete it AND SOVIET_SPM_DIR and make an update
-sed -i '/SOVIET_ROOT/d' /etc/cccp.conf
-sed -i '/SOVIET_SPM_DIR/d' /etc/cccp.conf
-echo "SOVIET_ROOT=$SOV_DIR" >> /etc/cccp.conf
-echo "SOVIET_SPM_DIR=$SOV_DIR/var/cccp/spm" >> /etc/cccp.conf
-sleep 2
-fi
-
+  if [[ "SOVIET_ROOT=$SOV_DIR" != "$BUILDCHECK" ]]; then
+  echo 'BUILD and BUILDCHECK do not match, replacing'
+  ## delete it AND SOVIET_SPM_DIR and make an update
+  sed -i "s|SOVIET_ROOT=/|SOVIET_ROOT=$SOV_DIR|" /etc/cccp.conf
+  sed -i "s|SOVIET_SPM_DIR=.*|SOVIET_SPM_DIR=$SOV_DIR/var/cccp/spm|" /etc/cccp.conf
+  sleep 2
+  fi
 else
 ## if there's no SOVIET_ROOT variable, make one
 echo "SOVIET_ROOT=$SOV_DIR" >> /etc/cccp.conf

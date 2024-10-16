@@ -101,8 +101,6 @@ mount -o loop ${LOOP}p1 loop-efi/
 mount -o loop ${LOOP}p2 loop-install/
 ## pull in the efi directory
 cp -Rv $SOV_DIR/efi/* loop-efi/
-## ...but not the generic efi
-rm -v loop-efi/EFI/Linux/sovietlinux*.efi
 ## instead we want the special installer efi
 cp -v sovietlinux-$1-installation.efi loop-efi/EFI/Linux/
 ## make a home for the squashfs.img and copy it to installer

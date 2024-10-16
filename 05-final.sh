@@ -10,8 +10,9 @@ mkdir -p $SOV_BUILD
 # make the build unique
 ###########
 
-## copy the generic efi out of the build
-cp -v $SOV_DIR/efi/EFI/Linux/sovietlinux-* $SOV_BUILD
+## remove the generic efi from stage 02 out of the build
+## (it never gets used)
+rm -v $SOV_DIR/efi/EFI/Linux/sovietlinux-*
 ## move the dracut imgs and the installer efi out of build
 mv $SOV_DIR/efi/sovietlinux-* $SOV_BUILD
 
