@@ -44,7 +44,7 @@ cp -v $SOV_FILES/logo-soviet-boot.bmp $SOV_DIR/efi
 cp -v $SOV_FILES/11-dm-initramfs.rules $SOV_DIR/etc/udev/rules.d/
 
 ########
-# traditional /etc files
+# /etc files
 ########
 ## fstab - maybe not needed?
 #cp -v $SOV_FILES/fstab-install $SOV_DIR/etc/
@@ -87,6 +87,9 @@ rm -vf lsb-release
 cp -v $SOV_FILES/soviet-install.sh $SOV_DIR/etc/
 cp -v $SOV_FILES/soviet-final.sh $SOV_DIR/etc/
 chmod +x $SOV_DIR/etc/soviet-{install,final}.sh
+
+## cccp
+cp $SOV_FILES/cccp.conf $SOV_DIR/etc/
 
 ## get stage 4 ready
 cp 04-config.sh  $SOV_DIR/
