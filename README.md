@@ -17,7 +17,7 @@ If you're building _only_ for your own system, switching `-march=x86-64-v2` to `
 1. edit the *sovietbuilder.sh* file:  
 There are three variables starting at appx line 20, that point to directories. The default options use $PWD (present working directory), and will create folders in the same directory that you run the script from. These three variables should be the only things you need to change in the script.
 
-2. if you're installing to a partition or other mounted location, make sure you create the necessary folders (that you named in the `sovietbuilder.sh` file, as above) and mount your targets. If you're not mounting anything, the script will create these folders for you. Note that the _soviet_ build generated in this script will take up about 2.5G of space, so plan accordingly.
+2. if you're installing to a partition or other mounted location, make sure you create the necessary folders (that you named in the `sovietbuilder.sh` file, as above) and mount your targets. If you're not mounting anything, the script will create these folders for you. Note that the _soviet_ build generated in this script will take up about 2.5G of space, and compiling the kernel will take 10-15G. Plan accordingly.
 
 3. run the `sovietbuilder.sh` script. This will probably take several hours, depending on your machine.
 
