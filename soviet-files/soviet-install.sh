@@ -16,6 +16,8 @@ mkfs.vfat ${TARGET}1 -F 32 -n SOVIET-EFI
 mkfs.btrfs ${TARGET}2 -L sovietlinux
 ## mount target root
 mount LABEL=sovietlinux -o compress=zstd:3 /mnt
+## make dir for efi
+mkdir /mnt/efi
 ## target EFI partition
 mount LABEL=SOVIET-EFI /mnt/efi
 

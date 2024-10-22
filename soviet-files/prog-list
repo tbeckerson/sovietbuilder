@@ -34,6 +34,7 @@ gcc
 gdbm
 gettext
 git
+glib
 glibc
 gmp
 gperf
@@ -65,6 +66,7 @@ libtool
 libunistring
 libxcrypt
 libxml2
+libxslt
 linux-pam
 linux-zen-headers
 linux-zen
@@ -111,6 +113,7 @@ tcl
 texinfo
 tpm2-tss
 tzdb
+unzip
 util-linux
 vim
 wget

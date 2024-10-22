@@ -57,7 +57,7 @@ systemctl enable systemd-resolved
 ## dbus-broker
 systemctl enable dbus-broker
 ## audit-rules needs actual rules
-systemctl disable audit-rules
+#systemctl disable audit-rules
 ## get the boot files
 cp -v /usr/lib/systemd/boot/efi/systemd-bootx64.efi /efi/EFI/BOOT/BOOTX64.EFI
 cp -v /usr/lib/systemd/boot/efi/systemd-bootx64.efi /efi/EFI/systemd/

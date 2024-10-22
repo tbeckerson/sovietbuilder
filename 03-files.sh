@@ -86,6 +86,7 @@ rm -vf lsb-release
 ## installer script
 cp -v $SOV_FILES/soviet-install.sh $SOV_DIR/etc/
 cp -v $SOV_FILES/soviet-final.sh $SOV_DIR/etc/
+chmod +x $SOV_DIR/etc/soviet-{install,final}.sh
 
 ## get stage 4 ready
 cp 04-config.sh  $SOV_DIR/
