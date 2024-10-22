@@ -49,14 +49,15 @@ The `sovietbuilder.sh` script calls 5 other scripts to create the _soviet_ build
 - **rebuilder.sh** is used after the main script has completed. If you later alter your build (by chrooting or nspawning into your new build dir and making changes), the *rebuilder.sh* script will repeat the steps in 05-build.sh to create new deployment files.
 
 ## TO DO:
-- installer does not work!  
+- ~~installer does not work!~~  
+- installer sucks tho    
 - strip.sh crashes during use.  
 - strip.sh should parse lib numbers instead of manually changing them.  
-- needs some more checks, epecially in 03 and 05, to not overwrite files or crash because a file already exists.  
+- needs some more checks, epecially in 03 and 05, to not overwrite files or crash because a file already exists or has been deleted.  
 - the build time tracker gives a 'bad substitution' error at the very end.  
-- there's probably a more efficient way to loop through *prog-list* in 02.  
-- some of the 03 files might not actually be necessary. Some are possibly overwriting program files from 02.
-- there's inconsistent conditionals through the scripts - some ||, some &&, some `[ if -* ]`. Needs to be standardized.  
+- there's probably a more efficient way to loop through *prog-list* in 02?  
+- some of the 03 files might not actually be necessary. Some are possibly overwriting program files from 02.    
+- there's inconsistent conditionals through the scripts - some ||, some &&, some `[ if -* ]`. Needs to be standardized. Also inconsistent linking. 
 - fix the readme to actually list the files in the *soviet-files* dir.
 - *rebuilder* functions properly, but needs a lot of work.
 - ?? probably a thousand more things.
